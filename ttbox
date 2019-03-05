@@ -8,7 +8,7 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description='Extracts infos from tttool yaml file')
 
     parser.add_argument('MODE',
-                        choices=['PRODUCT-ID', 'OIDS'],
+                        choices=['dump-product-id', 'dump-oids'],
                         help='Gives the mode of operation')
 
     parser.add_argument('YAML_FILE',
@@ -31,10 +31,10 @@ def getYaml(file_name):
 
 if __name__ == '__main__':
     args = parse_arguments()
-    if args.MODE == 'PRODUCT-ID':
+    if args.MODE == 'dump-product-id':
         yaml = getYaml(args.YAML_FILE)
         print(yaml.get('product-id', None))
-    elif args.MODE == 'OIDS':
+    elif args.MODE == 'dump-oids':
         yaml = getYaml(args.YAML_FILE)
         print("\n".join(sorted(yaml.get('scripts', {}).keys() + ['START'])))
     else:

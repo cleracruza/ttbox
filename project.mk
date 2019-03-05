@@ -1,14 +1,14 @@
 CODE_YAML_FILE=$(shell find -iname '*.codes.yaml')
 SVG_WITHOUT_OIDS_FILES=$(shell find -iname '*.svg' ! -iname '*-with-oids.svg' )
 
-YAML_DUMP="ttbox/yaml-dump"
+TTBOX="ttbox/ttbox"
 
 YAML_FILE=$(CODE_YAML_FILE:%.codes.yaml=%.yaml)
 GME_FILE=$(YAML_FILE:%.yaml=%.gme)
 SVG_WITH_OIDS_FILES=$(SVG_WITHOUT_OIDS_FILES:%.svg=%-with-oids.svg)
 
-PRODUCT_ID=$(shell ${YAML_DUMP} PRODUCT-ID ${YAML_FILE})
-OIDS=$(shell ${YAML_DUMP} OIDS ${YAML_FILE})
+PRODUCT_ID=$(shell ${TTBOX} dump-product-id ${YAML_FILE})
+OIDS=$(shell ${TTBOX} dump-oids ${YAML_FILE})
 TTTOOL_OID_FILES=$(OIDS:%=oid-$(PRODUCT_ID)-%.png)
 EXTRACTED_OID_FILES=$(TTTOOL_OID_FILES:%.png=%-extracted.png)
 
