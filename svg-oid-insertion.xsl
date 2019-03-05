@@ -14,6 +14,7 @@
 <xsl:param name="oidSize" select="&quot;30mm&quot;"/>
 <xsl:param name="oidSuffix"/>
 <xsl:param name="needs-start-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button)&quot;)"/>
+<xsl:param name="needs-stop-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button)&quot;)"/>
 
 <xsl:template match="@style" mode="restyle">
         <xsl:attribute name="style">fill:url(#pattern-oid-<xsl:value-of select="substring-before(substring-after(string(../svg:desc[1]),&quot;(oid:&quot;), &quot;&#41;&quot;)"/>);fill-opacity:1.0</xsl:attribute>
@@ -63,6 +64,18 @@
                 <xsl:attribute name="xlink:href">./oid-<xsl:value-of select="$productId"/>-START<xsl:value-of select="$oidSuffix"/>.png</xsl:attribute>
             </svg:image>
         </svg:pattern>
+        <svg:pattern>
+            <xsl:attribute name="id">pattern-oid-STOP</xsl:attribute>
+            <xsl:attribute name="width"><xsl:value-of select="$oidSize"/></xsl:attribute>
+            <xsl:attribute name="height"><xsl:value-of select="$oidSize"/></xsl:attribute>
+            <xsl:attribute name="patternTransform">translate(0,0)</xsl:attribute>
+            <xsl:attribute name="patternUnits">userSpaceOnUse</xsl:attribute>
+            <svg:image x="0" y="0">
+                <xsl:attribute name="width"><xsl:value-of select="$oidSize"/></xsl:attribute>
+                <xsl:attribute name="height"><xsl:value-of select="$oidSize"/></xsl:attribute>
+                <xsl:attribute name="xlink:href">./oid-<xsl:value-of select="$productId"/>-STOP<xsl:value-of select="$oidSuffix"/>.png</xsl:attribute>
+            </svg:image>
+        </svg:pattern>
     </xsl:copy>
 </xsl:template>
 
@@ -109,6 +122,35 @@
                             sodipodi:nodetypes="cc" />
                         <svg:circle
                             style="fill:url(#pattern-oid-START);fill-opacity:1"
+                            r="17.716536"
+                            cy="0"
+                            cx="0" />
+                    </svg:g>
+                </svg:g>
+            </svg:g>
+        </xsl:if>
+        <xsl:if test="$needs-stop-button">
+            <svg:g
+                inkscape:label="ttbox-stop-button"
+                inkscape:groupmode="layer"
+                id="ttbox-stop-button">
+                <svg:g>
+                    <xsl:attribute name="transform">translate(<xsl:value-of select="concat(substring(substring-before(@width,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@width,&quot;mm&quot;))*(string-length(@width)+10)), substring(@width, 1, number(not(contains(@width,&quot;mm&quot;)))*string-length(@width)))"/>, <xsl:value-of select="concat(substring(substring-before(@height,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@height,&quot;mm&quot;))*(string-length(@height)+10)), substring(@height, 1, number(not(contains(@height,&quot;mm&quot;)))*string-length(@height)))"/>)</xsl:attribute>
+                    <svg:g transform="translate(-53.1496063, -53.1496063)" >
+                        <svg:circle
+                            style="color:#000000;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35433072;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+                            r="17.716536"
+                            cy="0"
+                            cx="0" />
+                        <svg:rect
+                            style="color:#000000;fill:#ffffff;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;fill-opacity:1"
+                            width="12"
+                            height="12"
+                            x="-6"
+                            y="-6">
+                        </svg:rect>
+                        <svg:circle
+                            style="fill:url(#pattern-oid-STOP);fill-opacity:1"
                             r="17.716536"
                             cy="0"
                             cx="0" />
