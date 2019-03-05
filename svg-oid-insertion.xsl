@@ -97,7 +97,7 @@
                 id="ttbox-start-button">
                 <svg:g>
                     <xsl:attribute name="transform">translate(0,<xsl:value-of select="concat(substring(substring-before(@height,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@height,&quot;mm&quot;))*(string-length(@height)+10)), substring(@height, 1, number(not(contains(@height,&quot;mm&quot;)))*string-length(@height)))"/>)</xsl:attribute>
-                    <svg:g transform="translate(53.1496063, -53.1496063)" >
+                    <svg:g transform="translate(54, -54)" >
                         <svg:circle
                             style="color:#000000;fill:#00ff00;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35433072;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
                             r="17.716536"
@@ -136,7 +136,7 @@
                 id="ttbox-stop-button">
                 <svg:g>
                     <xsl:attribute name="transform">translate(<xsl:value-of select="concat(substring(substring-before(@width,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@width,&quot;mm&quot;))*(string-length(@width)+10)), substring(@width, 1, number(not(contains(@width,&quot;mm&quot;)))*string-length(@width)))"/>, <xsl:value-of select="concat(substring(substring-before(@height,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@height,&quot;mm&quot;))*(string-length(@height)+10)), substring(@height, 1, number(not(contains(@height,&quot;mm&quot;)))*string-length(@height)))"/>)</xsl:attribute>
-                    <svg:g transform="translate(-53.1496063, -53.1496063)" >
+                    <svg:g transform="translate(-54, -54)" >
                         <svg:circle
                             style="color:#000000;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35433072;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
                             r="17.716536"
