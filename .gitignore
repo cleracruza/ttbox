@@ -1,3 +1,4 @@
 *.gme
 oid-*-*.png
 *-with-oids.svg
+.tox
