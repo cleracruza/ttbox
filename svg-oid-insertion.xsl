@@ -15,6 +15,10 @@
 <xsl:param name="oidSuffix"/>
 <xsl:param name="needs-start-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button)&quot;)"/>
 <xsl:param name="needs-stop-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button)&quot;)"/>
+<xsl:param name="stop-button-x-default" select="&quot;-54&quot;"/>
+<xsl:param name="stop-button-y-default" select="&quot;-54&quot;"/>
+<xsl:param name="stop-button-x" select="concat(substring(substring-before(substring-after(string(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1]),&quot;(ttbox-stop-button-x:&quot;), &quot;&#41;&quot;), 1, number(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button-x:&quot;))      * 100),substring($stop-button-x-default, 1, number(not(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button-x:&quot;))) * 100))"/>
+<xsl:param name="stop-button-y" select="concat(substring(substring-before(substring-after(string(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1]),&quot;(ttbox-stop-button-y:&quot;), &quot;&#41;&quot;), 1, number(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button-y:&quot;))      * 100),substring($stop-button-y-default, 1, number(not(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button-y:&quot;))) * 100))"/>
 
 <xsl:template match="@style" mode="restyle">
         <xsl:attribute name="style">fill:url(#pattern-oid-<xsl:value-of select="substring-before(substring-after(string(../svg:desc[1]),&quot;(oid:&quot;), &quot;&#41;&quot;)"/>);fill-opacity:1.0</xsl:attribute>
@@ -136,7 +140,8 @@
                 id="ttbox-stop-button">
                 <svg:g>
                     <xsl:attribute name="transform">translate(<xsl:value-of select="concat(substring(substring-before(@width,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@width,&quot;mm&quot;))*(string-length(@width)+10)), substring(@width, 1, number(not(contains(@width,&quot;mm&quot;)))*string-length(@width)))"/>, <xsl:value-of select="concat(substring(substring-before(@height,&quot;mm&quot;) * 90 * 10 div 254, 1, number(contains(@height,&quot;mm&quot;))*(string-length(@height)+10)), substring(@height, 1, number(not(contains(@height,&quot;mm&quot;)))*string-length(@height)))"/>)</xsl:attribute>
-                    <svg:g transform="translate(-54, -54)" >
+                    <svg:g>
+                        <xsl:attribute name="transform">translate(<xsl:value-of select="$stop-button-x"/>, <xsl:value-of select="$stop-button-y"/>)</xsl:attribute>
                         <svg:circle
                             style="color:#000000;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35433072;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
                             r="17.716536"
