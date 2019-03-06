@@ -4,38 +4,112 @@ import yaml
 import argparse
 import sys
 
-def parse_arguments():
-    parser = argparse.ArgumentParser(description='Extracts infos from tttool yaml file')
-
-    parser.add_argument('MODE',
-                        choices=['dump-product-id', 'dump-oids'],
-                        help='Gives the mode of operation')
-
-    parser.add_argument('YAML_FILE',
-                        help='YAML file to parse')
-
-    return parser.parse_args()
-
 
 def error(msg):
     sys.stderr.write("%s\n" % (msg))
     sys.exit(1)
 
 
-def getYaml(file_name):
-    with open(file_name, 'r') as stream:
-        try:
-            return yaml.load(stream)
-        except yaml.YAMLError as exc:
-            error(str(exc))
+def parse_arguments():
+    parser = argparse.ArgumentParser(
+        description='Toolbox for GME and tttool yaml files')
+
+    subparsers = parser.add_subparsers(title='Commands',
+                                       description='Available commands')
+
+    for command_cls in COMMAND_CLASSES:
+        command = command_cls()
+        command.register_subparser(subparsers)
+
+    return parser.parse_args()
+
+
+class BaseCommand(object):
+    def __init__(self):
+        pass
+
+    def configure(self, config, args):
+        pass
+
+    def get_subparser_short_help(self):
+        raise NotImplementedError(
+            'Please implement this fuction in your subclass')
+
+    def register_subparser(self, subparsers):
+        command_name = self.__class__.__name__
+        if command_name.endswith('Command'):
+            command_name = command_name[0:-7]
+        command_name = ''.join([
+                (letter if letter.islower() else ('-' + letter))
+                for letter in command_name])[1:]
+        command_name = command_name.lower()
+
+        parser = subparsers.add_parser(command_name,
+                                       help=self.get_subparser_short_help())
+
+        parser.set_defaults(command=self)
+
+        return parser
+
+    def __str__(self):
+        raise NotImplementedError(
+            'Please implement this fuction in your subclass')
+
+    def run(self):
+        raise NotImplementedError(
+            'Please implement this fuction in your subclass')
+
+
+class YamlCommand(BaseCommand):
+    def configure(self, config, args):
+        self.YAML_FILE = args.YAML_FILE
+        self.yaml = self.getYaml(self.YAML_FILE)
+
+    def register_subparser(self, subparsers):
+        parser = super(YamlCommand, self).register_subparser(
+            subparsers)
+
+        parser.add_argument('YAML_FILE',
+                            help='YAML file to parse')
+
+        return parser
+
+    def getYaml(self, yaml_file):
+        with open(yaml_file, 'r') as stream:
+            try:
+                return yaml.load(stream)
+            except yaml.YAMLError as exc:
+                error(str(exc))
+
+
+class DumpOids(YamlCommand):
+    def get_subparser_short_help(self):
+        return 'prints the oids of a YAML file'
+
+    def run(self):
+        oids = sorted(self.yaml.get('scripts', {}).keys() + ['START'])
+        print("\n".join(oids))
+
+
+class DumpProductId(YamlCommand):
+    def get_subparser_short_help(self):
+        return 'prints the product id of a YAML file'
+
+    def run(self):
+        print(self.yaml.get('product-id', None))
+
+
+COMMAND_CLASSES = [
+    DumpOids,
+    DumpProductId,
+]
+
 
 if __name__ == '__main__':
     args = parse_arguments()
-    if args.MODE == 'dump-product-id':
-        yaml = getYaml(args.YAML_FILE)
-        print(yaml.get('product-id', None))
-    elif args.MODE == 'dump-oids':
-        yaml = getYaml(args.YAML_FILE)
-        print("\n".join(sorted(yaml.get('scripts', {}).keys() + ['START'])))
-    else:
-        error("Unknown mode '%s'" % (args.MODE))
+
+    config = {}
+
+    command = args.command
+    command.configure(config, args)
+    command.run()
