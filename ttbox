@@ -122,6 +122,14 @@ class SetProductId(GmeCommand):
         self.gme.write(self.GME_FILE)
 
 
+class Explain(GmeCommand):
+    def get_subparser_short_help(self):
+        return 'prints an annotated dump of the GME file'
+
+    def run(self):
+        self.gme.explain()
+
+
 class DumpOids(YamlCommand):
     def get_subparser_short_help(self):
         return 'prints the oids of a YAML file'
@@ -141,6 +149,7 @@ class DumpProductId(YamlCommand):
 
 COMMAND_CLASSES = [
     SetProductId,
+    Explain,
     DumpOids,
     DumpProductId,
 ]

@@ -7,11 +7,10 @@ class GmeFile(object):
         self.file_name = file_name
         with open(self.file_name, 'rb') as f:
             buffer = f.read()
-        full = GmeRawChunk(0, buffer)
+        rest = GmeRawChunk(0, buffer)
+        (rest, checksum) = rest.split('raw', -4, 'checksum')
 
-        (full_no_checksum, checksum) = full.split('raw', -4, 'checksum')
-
-        self.chunks = [full_no_checksum, checksum]
+        self.chunks = [rest, checksum]
 
     def set_product_id(self, product_id):
         header = self.chunks[0]
@@ -22,6 +21,10 @@ class GmeFile(object):
         for chunk in self.chunks[:-1]:
             ret += chunk.checksum()
         return ret & 0xffffffff
+
+    def explain(self):
+        for chunk in self.chunks:
+            chunk.explain()
 
     def write(self, file_name):
         with open(file_name, 'wb') as f:

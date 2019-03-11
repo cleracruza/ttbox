@@ -34,6 +34,42 @@ class GmeRawChunk(object):
         tail = tail_cls(offset, self.buffer[offset:])
         return (head, tail)
 
+    def explain(self):
+        print
+        print(str(self))
+        print(self.format_buffer())
+
+    def format_byte(self, offset):
+        ret = '--'
+        if self.offset <= offset and offset < self.offset + len(self.buffer):
+            byte = ord(self.buffer[offset - self.offset])
+            ret = '%.02X' % (byte)
+
+        return ret
+
+    def format_buffer(self):
+        start = (self.offset & 0xfffffff0)
+        end = ((self.offset + len(self.buffer) - 1) & 0xfffffff0) + 0x0f
+
+        line = start
+        ret = ''
+        while line < end:
+            ret += ('%.08X:  %s %s %s %s %s %s %s %s '
+                    + ' %s %s %s %s %s %s %s %s\n') % (
+                line,
+                self.format_byte(line + 0), self.format_byte(line + 1),
+                self.format_byte(line + 2), self.format_byte(line + 3),
+                self.format_byte(line + 4), self.format_byte(line + 5),
+                self.format_byte(line + 6), self.format_byte(line + 7),
+                self.format_byte(line + 8), self.format_byte(line + 9),
+                self.format_byte(line + 10), self.format_byte(line + 11),
+                self.format_byte(line + 12), self.format_byte(line + 13),
+                self.format_byte(line + 14), self.format_byte(line + 15),
+                )
+            line += 16
+
+        return ret
+
     def __str__(self):
         return "%s(offset: %d, len: %d)" % (self.__class__.__name__,
                                             self.offset, len(self.buffer))
