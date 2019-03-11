@@ -9,7 +9,11 @@ class GmeChecksumChunk(GmeRawChunk):
             raise RuntimeError('Checksum chunk has to have length 4, but has '
                                + '%d.' % (self.length))
 
+    def stored_checksum(self):
+        (ret, ) = unpack('<I', self.buffer)
+        return ret
+
     def __str__(self):
         ret = super(GmeChecksumChunk, self).__str__()
-        ret += "(checksum: %s)" % (unpack('<I', self.buffer))
+        ret += "(checksum: %s)" % (self.stored_checksum())
         return ret

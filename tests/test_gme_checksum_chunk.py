@@ -15,3 +15,10 @@ class TestGmeChecksumChunk(TestCase):
         with self.assertRaises(RuntimeError) as context:
             GmeChecksumChunk(0x20, 'ABCDE')
         assert 'length 4' in str(context.exception)
+
+    def test_stored_checksum_plain(self):
+        chunk = GmeChecksumChunk(0x20, '\x12\x34\x56\x78')
+
+        actual = chunk.stored_checksum()
+
+        assert actual == 0x78563412
