@@ -13,8 +13,21 @@ class GmeRawChunk(object):
         return getattr(sys.modules[module], name)
 
     def setInt32(self, offset, value):
+        size = 4
+        if size > len(self.buffer):
+            raise RuntimeError(('Setting %d bytes is beyond the chunk size '
+                                + '(%d)') % (size, len(self.buffer)))
+        if offset + size > len(self.buffer):
+            raise RuntimeError(('Setting value at offset %d would run past '
+                                + 'chunk end') % (offset))
+        if offset < -len(self.buffer):
+            raise RuntimeError(('Setting value at offset %d would be before '
+                                + 'chunk start') % (offset))
+        if offset < 0:
+            offset += len(self.buffer)
+
         self.buffer = self.buffer[0:offset] + pack('<I', value) \
-            + self.buffer[offset+4:]
+            + self.buffer[offset + size:]
 
     def checksum(self):
         ret = 0
@@ -28,10 +41,18 @@ class GmeRawChunk(object):
     def split(self, head_kind, offset, tail_kind):
         head_cls = self.kind_to_cls(head_kind)
         tail_cls = self.kind_to_cls(tail_kind)
-        if (offset < len(self.buffer)):
+        if offset > len(self.buffer):
+            raise RuntimeError(('Splitting chunk of size %s past end (at '
+                                + 'position %d) is not supported') % (
+                    len(self.buffer), offset))
+        if offset < -len(self.buffer):
+            raise RuntimeError(('Splitting chunk of size %s before start (at '
+                                + 'position %d) is not supported') % (
+                    len(self.buffer), offset))
+        if offset < 0:
             offset += len(self.buffer)
-        head = head_cls(0, self.buffer[0:offset])
-        tail = tail_cls(offset, self.buffer[offset:])
+        head = head_cls(self.offset, self.buffer[0:offset])
+        tail = tail_cls(self.offset + offset, self.buffer[offset:])
         return (head, tail)
 
     def explain(self):
