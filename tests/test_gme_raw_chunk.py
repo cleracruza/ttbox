@@ -14,42 +14,42 @@ class TestGmeRawChunk(TestCase):
         cls = chunk.kind_to_cls('checksum')
         assert cls.__name__ == 'GmeChecksumChunk'
 
-    def test_set_int_32_normal(self):
+    def test_set_int32_normal(self):
         chunk = GmeRawChunk(0x20, 'ABCDEF')
-        chunk.setInt32(1, 0x12345678)
+        chunk.set_int32(1, 0x12345678)
         assert chunk.buffer == 'A\x78\x56\x34\x12F'
 
-    def test_set_int_32_small(self):
+    def test_set_int32_small(self):
         chunk = GmeRawChunk(0x20, 'ABCDEF')
-        chunk.setInt32(1, 0x78)
+        chunk.set_int32(1, 0x78)
         assert chunk.buffer == 'A\x78\x00\x00\x00F'
 
-    def test_set_int_32_at_end(self):
+    def test_set_int32_at_end(self):
         chunk = GmeRawChunk(0x20, 'ABCDEF')
-        chunk.setInt32(2, 0x12345678)
+        chunk.set_int32(2, 0x12345678)
         assert chunk.buffer == 'AB\x78\x56\x34\x12'
 
-    def test_set_int_32_past_end(self):
+    def test_set_int32_past_end(self):
         chunk = GmeRawChunk(0x20, 'ABCDEF')
         with self.assertRaises(RuntimeError) as context:
-            chunk.setInt32(3, 0x12345678)
+            chunk.set_int32(3, 0x12345678)
         assert 'past chunk end' in str(context.exception)
 
-    def test_set_int_32_at_start(self):
+    def test_set_int32_at_start(self):
         chunk = GmeRawChunk(0x20, 'ABCDEF')
-        chunk.setInt32(0, 0x12345678)
+        chunk.set_int32(0, 0x12345678)
         assert chunk.buffer == '\x78\x56\x34\x12EF'
 
-    def test_set_int_32_before_start(self):
+    def test_set_int32_before_start(self):
         chunk = GmeRawChunk(0x20, 'ABCDEF')
         with self.assertRaises(RuntimeError) as context:
-            chunk.setInt32(-7, 0x12345678)
+            chunk.set_int32(-7, 0x12345678)
         assert 'before chunk start' in str(context.exception)
 
-    def test_set_int_32_in_too_small_buffer(self):
+    def test_set_int32_in_too_small_buffer(self):
         chunk = GmeRawChunk(0x20, 'ABC')
         with self.assertRaises(RuntimeError) as context:
-            chunk.setInt32(-2, 0x12345678)
+            chunk.set_int32(-2, 0x12345678)
         assert 'chunk size' in str(context.exception)
 
     def test_checksum_single(self):

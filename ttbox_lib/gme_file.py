@@ -14,7 +14,7 @@ class GmeFile(object):
 
     def set_product_id(self, product_id):
         header = self.chunks[0]
-        header.setInt32(0x14, product_id)
+        header.set_int32(0x14, product_id)
 
     def checksum(self):
         ret = 0

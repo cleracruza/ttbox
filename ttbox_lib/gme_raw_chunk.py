@@ -13,7 +13,7 @@ class GmeRawChunk(object):
         name = 'Gme' + kind[0].upper() + kind[1:] + 'Chunk'
         return getattr(sys.modules[module], name)
 
-    def setInt32(self, offset, value):
+    def set_int32(self, offset, value):
         size = 4
         if size > self.length:
             raise RuntimeError(('Setting %d bytes is beyond the chunk size '
