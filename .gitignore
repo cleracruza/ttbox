@@ -2,3 +2,4 @@
 oid-*-*.png
 *-with-oids.svg
 .tox
+*.pyc

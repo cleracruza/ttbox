@@ -3,7 +3,7 @@
 import yaml
 import argparse
 import sys
-from struct import pack, unpack
+from ttbox_lib import GmeFile
 
 
 def error(msg):
@@ -81,77 +81,6 @@ class YamlCommand(BaseCommand):
                 return yaml.load(stream)
             except yaml.YAMLError as exc:
                 error(str(exc))
-
-
-class GmeRawChunk(object):
-    def __init__(self, offset, buffer):
-        self.offset = offset
-        self.buffer = buffer
-
-    def kind_to_cls(self, kind):
-        name = 'Gme' + kind[0].upper() + kind[1:] + 'Chunk'
-        return getattr(sys.modules[__name__], name)
-
-    def setInt32(self, offset, value):
-        self.buffer = self.buffer[0:offset] + pack('<I', value) \
-            + self.buffer[offset+4:]
-
-    def checksum(self):
-        ret = 0
-        for b in self.buffer:
-            ret += ord(b)
-        return ret & 0xffffffff
-
-    def write(self, f):
-        f.write(self.buffer)
-
-    def split(self, head_kind, offset, tail_kind):
-        head_cls = self.kind_to_cls(head_kind)
-        tail_cls = self.kind_to_cls(tail_kind)
-        if (offset < len(self.buffer)):
-            offset += len(self.buffer)
-        head = head_cls(0, self.buffer[0:offset])
-        tail = tail_cls(offset, self.buffer[offset:])
-        return (head, tail)
-
-    def __str__(self):
-        return "%s(offset: %d, len: %d)" % (self.__class__.__name__,
-                                            self.offset, len(self.buffer))
-
-
-class GmeChecksumChunk(GmeRawChunk):
-    def __str__(self):
-        ret = super(GmeChecksumChunk, self).__str__()
-        ret += "(checksum: %s)" % (unpack('<I', self.buffer))
-        return ret
-
-
-class GmeFile(object):
-    def __init__(self, file_name):
-        self.file_name = file_name
-        with open(self.file_name, 'rb') as f:
-            buffer = f.read()
-        full = GmeRawChunk(0, buffer)
-
-        (full_no_checksum, checksum) = full.split('raw', -4, 'checksum')
-
-        self.chunks = [full_no_checksum, checksum]
-
-    def set_product_id(self, product_id):
-        header = self.chunks[0]
-        header.setInt32(0x14, product_id)
-
-    def checksum(self):
-        ret = 0
-        for chunk in self.chunks[:-1]:
-            ret += chunk.checksum()
-        return ret & 0xffffffff
-
-    def write(self, file_name):
-        with open(file_name, 'wb') as f:
-            for chunk in self.chunks[:-1]:
-                chunk.write(f)
-            f.write(pack('<I', self.checksum()))
 
 
 class GmeCommand(BaseCommand):
