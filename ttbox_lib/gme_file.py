@@ -23,8 +23,7 @@ class GmeFile(object):
         return ret & 0xffffffff
 
     def explain(self):
-        for chunk in self.chunks:
-            chunk.explain()
+        return ''.join([chunk.explain() for chunk in self.chunks])
 
     def write(self, file_name):
         with open(file_name, 'wb') as f:

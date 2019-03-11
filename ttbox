@@ -127,7 +127,7 @@ class Explain(GmeCommand):
         return 'prints an annotated dump of the GME file'
 
     def run(self):
-        self.gme.explain()
+        print(self.gme.explain())
 
 
 class DumpOids(YamlCommand):

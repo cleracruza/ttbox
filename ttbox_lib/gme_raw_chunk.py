@@ -57,9 +57,7 @@ class GmeRawChunk(object):
         return (head, tail)
 
     def explain(self):
-        print
-        print(str(self))
-        print(self.format_buffer())
+        return '\n%s\n%s\n' % (str(self), self.format_buffer())
 
     def format_byte(self, offset):
         ret = '--'

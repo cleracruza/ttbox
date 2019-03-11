@@ -146,6 +146,12 @@ class TestGmeRawChunk(TestCase):
         assert tail.offset == 0x22
         assert tail.buffer == '\x01\x02\x03\x04'
 
+    def test_explain(self):
+        chunk = GmeRawChunk(0x21, 'ABCDEF')
+        explanation = chunk.explain()
+        assert 'GmeRawChunk' in explanation
+        assert '00000020:  -- 41 42 43 44 45 46 --' in explanation
+
     def test_format_byte_too_low_offset(self):
         chunk = GmeRawChunk(0x20, '\x12')
         assert chunk.format_byte(0x18) == '--'
