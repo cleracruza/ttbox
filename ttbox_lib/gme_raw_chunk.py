@@ -1,5 +1,5 @@
 import sys
-from struct import pack
+from struct import pack, unpack
 
 
 class GmeRawChunk(object):
@@ -29,6 +29,23 @@ class GmeRawChunk(object):
 
         self.buffer = self.buffer[0:offset] + pack('<I', value) \
             + self.buffer[offset + size:]
+
+    def get_int32(self, offset):
+        size = 4
+        if size > self.length:
+            raise RuntimeError(('Getting %d bytes is beyond the chunk size '
+                                + '(%d)') % (size, self.length))
+        if offset + size > self.length:
+            raise RuntimeError(('Getting value at offset %d would read past '
+                                + 'chunk end') % (offset))
+        if offset < -self.length:
+            raise RuntimeError(('Getting value at offset %d would be before '
+                                + 'chunk start') % (offset))
+        if offset < 0:
+            offset += self.length
+
+        (ret, ) = unpack('<I', self.buffer[offset:offset+size])
+        return ret
 
     def checksum(self):
         ret = 0

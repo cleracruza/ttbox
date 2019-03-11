@@ -1,4 +1,3 @@
-from struct import unpack
 from . import GmeRawChunk
 
 
@@ -10,8 +9,7 @@ class GmeChecksumChunk(GmeRawChunk):
                                + '%d.' % (self.length))
 
     def stored_checksum(self):
-        (ret, ) = unpack('<I', self.buffer)
-        return ret
+        return self.get_int32(0)
 
     def __str__(self):
         ret = super(GmeChecksumChunk, self).__str__()
