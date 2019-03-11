@@ -6,6 +6,7 @@ class GmeRawChunk(object):
     def __init__(self, offset, buffer):
         self.offset = offset
         self.buffer = buffer
+        self.length = len(self.buffer)
 
     def kind_to_cls(self, kind):
         module = 'ttbox_lib.gme_' + kind + '_chunk'
@@ -14,17 +15,17 @@ class GmeRawChunk(object):
 
     def setInt32(self, offset, value):
         size = 4
-        if size > len(self.buffer):
+        if size > self.length:
             raise RuntimeError(('Setting %d bytes is beyond the chunk size '
-                                + '(%d)') % (size, len(self.buffer)))
-        if offset + size > len(self.buffer):
+                                + '(%d)') % (size, self.length))
+        if offset + size > self.length:
             raise RuntimeError(('Setting value at offset %d would run past '
                                 + 'chunk end') % (offset))
-        if offset < -len(self.buffer):
+        if offset < -self.length:
             raise RuntimeError(('Setting value at offset %d would be before '
                                 + 'chunk start') % (offset))
         if offset < 0:
-            offset += len(self.buffer)
+            offset += self.length
 
         self.buffer = self.buffer[0:offset] + pack('<I', value) \
             + self.buffer[offset + size:]
@@ -41,16 +42,16 @@ class GmeRawChunk(object):
     def split(self, head_kind, offset, tail_kind):
         head_cls = self.kind_to_cls(head_kind)
         tail_cls = self.kind_to_cls(tail_kind)
-        if offset > len(self.buffer):
+        if offset > self.length:
             raise RuntimeError(('Splitting chunk of size %s past end (at '
                                 + 'position %d) is not supported') % (
-                    len(self.buffer), offset))
-        if offset < -len(self.buffer):
+                    self.length, offset))
+        if offset < -self.length:
             raise RuntimeError(('Splitting chunk of size %s before start (at '
                                 + 'position %d) is not supported') % (
-                    len(self.buffer), offset))
+                    self.length, offset))
         if offset < 0:
-            offset += len(self.buffer)
+            offset += self.length
         head = head_cls(self.offset, self.buffer[0:offset])
         tail = tail_cls(self.offset + offset, self.buffer[offset:])
         return (head, tail)
@@ -62,7 +63,7 @@ class GmeRawChunk(object):
 
     def format_byte(self, offset):
         ret = '--'
-        if self.offset <= offset and offset < self.offset + len(self.buffer):
+        if self.offset <= offset and offset < self.offset + self.length:
             byte = ord(self.buffer[offset - self.offset])
             ret = '%.02X' % (byte)
 
@@ -70,7 +71,7 @@ class GmeRawChunk(object):
 
     def format_buffer(self):
         start = (self.offset & 0xfffffff0)
-        end = ((self.offset + len(self.buffer) - 1) & 0xfffffff0) + 0x0f
+        end = ((self.offset + self.length - 1) & 0xfffffff0) + 0x0f
 
         line = start
         ret = ''
@@ -93,4 +94,4 @@ class GmeRawChunk(object):
 
     def __str__(self):
         return "%s(offset: %d, len: %d)" % (self.__class__.__name__,
-                                            self.offset, len(self.buffer))
+                                            self.offset, self.length)
