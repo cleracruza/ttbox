@@ -7,8 +7,8 @@ YAML_FILE=$(CODE_YAML_FILE:%.codes.yaml=%.yaml)
 GME_FILE=$(YAML_FILE:%.yaml=%.gme)
 SVG_WITH_OIDS_FILES=$(SVG_WITHOUT_OIDS_FILES:%.svg=%-with-oids.svg)
 
-PRODUCT_ID=$(shell ${TTBOX} dump-product-id ${YAML_FILE})
-OIDS=$(shell ${TTBOX} dump-oids ${YAML_FILE})
+PRODUCT_ID=$(shell ${TTBOX} print-product-id ${YAML_FILE})
+OIDS=$(shell ${TTBOX} print-oids ${YAML_FILE})
 TTTOOL_OID_FILES=$(OIDS:%=oid-$(PRODUCT_ID)-%.png)
 EXTRACTED_OID_FILES=$(TTTOOL_OID_FILES:%.png=%-extracted.png)
 

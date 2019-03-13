@@ -1,7 +1,7 @@
 from . import YamlCommand
 
 
-class DumpOidsCommand(YamlCommand):
+class PrintOidsCommand(YamlCommand):
     def get_subparser_short_help(self):
         return 'print the oids of a YAML file'
 

@@ -3,8 +3,8 @@ from outputs import warn, error
 from base_command import BaseCommand
 
 from yaml_command import YamlCommand
-from dump_oids_command import DumpOidsCommand
-from dump_product_id_command import DumpProductIdCommand
+from print_oids_command import PrintOidsCommand
+from print_product_id_command import PrintProductIdCommand
 
 from gme_command import GmeCommand
 from check_command import CheckCommand

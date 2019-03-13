@@ -22,9 +22,9 @@ def parse_arguments():
 
 COMMAND_CLASSES = [
     cmdline.CheckCommand,
-    cmdline.DumpOidsCommand,
-    cmdline.DumpProductIdCommand,
     cmdline.ExplainCommand,
+    cmdline.PrintOidsCommand,
+    cmdline.PrintProductIdCommand,
     cmdline.SetProductIdCommand,
     cmdline.UpdateChecksumCommand,
 ]
