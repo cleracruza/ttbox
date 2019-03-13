@@ -143,6 +143,14 @@ class Check(GmeCommand):
         sys.exit(exit_code)
 
 
+class UpdateChecksum(GmeCommand):
+    def get_subparser_short_help(self):
+        return 'updates the checksum stored in a GME file'
+
+    def run(self):
+        self.gme.write(self.GME_FILE)
+
+
 class Explain(GmeCommand):
     def get_subparser_short_help(self):
         return 'prints an annotated dump of the GME file'
@@ -171,6 +179,7 @@ class DumpProductId(YamlCommand):
 COMMAND_CLASSES = [
     SetProductId,
     Check,
+    UpdateChecksum,
     Explain,
     DumpOids,
     DumpProductId,
