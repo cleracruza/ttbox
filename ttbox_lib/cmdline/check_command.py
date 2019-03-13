@@ -6,7 +6,10 @@ from . import GmeCommand, warn
 
 class CheckCommand(GmeCommand):
     def get_subparser_short_help(self):
-        return 'check a GME file for obvious errors like checksum mismatch'
+        return 'check a GME file for obvious errors'
+
+    def get_subparser_description(self):
+        return 'Currently, this commands only checks the checksum.'
 
     def run(self):
         issues = self.gme.check()

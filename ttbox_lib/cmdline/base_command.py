@@ -1,3 +1,6 @@
+import argparse
+
+
 class BaseCommand(object):
     def __init__(self):
         pass
@@ -9,6 +12,9 @@ class BaseCommand(object):
         raise NotImplementedError(
             'Please implement this fuction in your subclass')
 
+    def get_subparser_description(self):
+        return ''
+
     def register_subparser(self, subparsers):
         command_name = self.__class__.__name__
         if command_name.endswith('Command'):
@@ -18,8 +24,15 @@ class BaseCommand(object):
                 for letter in command_name])[1:]
         command_name = command_name.lower()
 
-        parser = subparsers.add_parser(command_name,
-                                       help=self.get_subparser_short_help())
+        help = self.get_subparser_short_help()
+        description = help[0].upper() + help[1:] + '.\n\n' + \
+            self.get_subparser_description()
+        parser = subparsers.add_parser(
+            command_name,
+            description=description,
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            help=help,
+            )
 
         parser.set_defaults(command=self)
 
