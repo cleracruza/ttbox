@@ -3,7 +3,7 @@ from . import GmeCommand
 
 class SetProductIdCommand(GmeCommand):
     def get_subparser_short_help(self):
-        return 'sets the product id of a GME file'
+        return 'set the product id of a GME file'
 
     def configure(self, config, args):
         super(SetProductIdCommand, self).configure(config, args)
