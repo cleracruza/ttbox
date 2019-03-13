@@ -20,12 +20,12 @@ def parse_arguments():
 
 
 COMMAND_CLASSES = [
-    cmdline.SetProductIdCommand,
     cmdline.CheckCommand,
-    cmdline.UpdateChecksumCommand,
-    cmdline.ExplainCommand,
     cmdline.DumpOidsCommand,
     cmdline.DumpProductIdCommand,
+    cmdline.ExplainCommand,
+    cmdline.SetProductIdCommand,
+    cmdline.UpdateChecksumCommand,
 ]
 
 
