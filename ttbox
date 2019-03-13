@@ -1,17 +1,8 @@
 #!/usr/bin/env python
 
-import yaml
 import argparse
-import sys
-from ttbox_lib import GmeFile
 
-
-def error(msg):
-    sys.stderr.write("ERROR: %s\n" % (msg))
-    sys.exit(1)
-
-def warn(msg):
-    sys.stderr.write("WARN: %s\n" % (msg))
+import ttbox_lib.cmdline as cmdline
 
 
 def parse_arguments():
@@ -28,161 +19,13 @@ def parse_arguments():
     return parser.parse_args()
 
 
-class BaseCommand(object):
-    def __init__(self):
-        pass
-
-    def configure(self, config, args):
-        pass
-
-    def get_subparser_short_help(self):
-        raise NotImplementedError(
-            'Please implement this fuction in your subclass')
-
-    def register_subparser(self, subparsers):
-        command_name = self.__class__.__name__
-        if command_name.endswith('Command'):
-            command_name = command_name[0:-7]
-        command_name = ''.join([
-                (letter if letter.islower() else ('-' + letter))
-                for letter in command_name])[1:]
-        command_name = command_name.lower()
-
-        parser = subparsers.add_parser(command_name,
-                                       help=self.get_subparser_short_help())
-
-        parser.set_defaults(command=self)
-
-        return parser
-
-    def __str__(self):
-        raise NotImplementedError(
-            'Please implement this fuction in your subclass')
-
-    def run(self):
-        raise NotImplementedError(
-            'Please implement this fuction in your subclass')
-
-
-class YamlCommand(BaseCommand):
-    def configure(self, config, args):
-        self.YAML_FILE = args.YAML_FILE
-        self.yaml = self.getYaml(self.YAML_FILE)
-
-    def register_subparser(self, subparsers):
-        parser = super(YamlCommand, self).register_subparser(
-            subparsers)
-
-        parser.add_argument('YAML_FILE',
-                            help='YAML file to parse')
-
-        return parser
-
-    def getYaml(self, yaml_file):
-        with open(yaml_file, 'r') as stream:
-            try:
-                return yaml.load(stream)
-            except yaml.YAMLError as exc:
-                error(str(exc))
-
-
-class GmeCommand(BaseCommand):
-    def configure(self, config, args):
-        self.GME_FILE = args.GME_FILE
-        self.gme = self.getGme(self.GME_FILE)
-
-    def register_subparser(self, subparsers):
-        parser = super(GmeCommand, self).register_subparser(
-            subparsers)
-
-        parser.add_argument('GME_FILE',
-                            help='GME file to parse')
-
-        return parser
-
-    def getGme(self, gme_file):
-        return GmeFile(gme_file)
-
-
-class SetProductId(GmeCommand):
-    def get_subparser_short_help(self):
-        return 'sets the product id of a GME file'
-
-    def configure(self, config, args):
-        super(SetProductId, self).configure(config, args)
-        self.product_id = args.PRODUCT_ID
-
-    def register_subparser(self, subparsers):
-        parser = super(SetProductId, self).register_subparser(
-            subparsers)
-
-        parser.add_argument('PRODUCT_ID',
-                            type=int,
-                            help='The product id to set')
-
-    def run(self):
-        self.gme.set_product_id(self.product_id)
-        self.gme.write(self.GME_FILE)
-
-
-class Check(GmeCommand):
-    def get_subparser_short_help(self):
-        return 'checks a GME file for obvious errors like checksum mismatch'
-
-    def run(self):
-        issues = self.gme.check()
-        exit_code = 1
-        if issues:
-            for issue in issues:
-                warn(issue)
-            print "File has at least %d issues." % (len(issues))
-            exit_code = 1
-        else:
-            print "File is ok."
-            exit_code = 0
-        sys.exit(exit_code)
-
-
-class UpdateChecksum(GmeCommand):
-    def get_subparser_short_help(self):
-        return 'updates the checksum stored in a GME file'
-
-    def run(self):
-        self.gme.write(self.GME_FILE)
-
-
-class Explain(GmeCommand):
-    def get_subparser_short_help(self):
-        return 'prints an annotated dump of the GME file'
-
-    def run(self):
-        print(self.gme.explain())
-
-
-class DumpOids(YamlCommand):
-    def get_subparser_short_help(self):
-        return 'prints the oids of a YAML file'
-
-    def run(self):
-        oids = sorted(self.yaml.get('scripts', {}).keys() + ['START'])
-        print("\n".join(oids))
-
-
-class DumpProductId(YamlCommand):
-    def get_subparser_short_help(self):
-        return 'prints the product id of a YAML file'
-
-    def run(self):
-        print(self.yaml.get('product-id', None))
-
-
 COMMAND_CLASSES = [
-    SetProductId,
-    Check,
-    UpdateChecksum,
-    Explain,
-    DumpOids,
-    DumpProductId,
+    cmdline.SetProductIdCommand,
+    cmdline.CheckCommand,
+    cmdline.UpdateChecksumCommand,
+    cmdline.ExplainCommand,
+    cmdline.DumpOidsCommand,
+    cmdline.DumpProductIdCommand,
 ]
 
 
