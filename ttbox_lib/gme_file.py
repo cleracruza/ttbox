@@ -30,3 +30,12 @@ class GmeFile(object):
             for chunk in self.chunks[:-1]:
                 chunk.write(f)
             f.write(pack('<I', self.checksum()))
+
+    def check(self):
+        ret = []
+        actual = self.chunks[-1].stored_checksum()
+        expected = self.checksum()
+        if (expected != actual):
+            ret.append("The file contains checksum %d but should be %d" % (
+                    actual, expected))
+        return ret

@@ -7,8 +7,11 @@ from ttbox_lib import GmeFile
 
 
 def error(msg):
-    sys.stderr.write("%s\n" % (msg))
+    sys.stderr.write("ERROR: %s\n" % (msg))
     sys.exit(1)
+
+def warn(msg):
+    sys.stderr.write("WARN: %s\n" % (msg))
 
 
 def parse_arguments():
@@ -122,6 +125,24 @@ class SetProductId(GmeCommand):
         self.gme.write(self.GME_FILE)
 
 
+class Check(GmeCommand):
+    def get_subparser_short_help(self):
+        return 'checks a GME file for obvious errors like checksum mismatch'
+
+    def run(self):
+        issues = self.gme.check()
+        exit_code = 1
+        if issues:
+            for issue in issues:
+                warn(issue)
+            print "File has at least %d issues." % (len(issues))
+            exit_code = 1
+        else:
+            print "File is ok."
+            exit_code = 0
+        sys.exit(exit_code)
+
+
 class Explain(GmeCommand):
     def get_subparser_short_help(self):
         return 'prints an annotated dump of the GME file'
@@ -149,6 +170,7 @@ class DumpProductId(YamlCommand):
 
 COMMAND_CLASSES = [
     SetProductId,
+    Check,
     Explain,
     DumpOids,
     DumpProductId,
