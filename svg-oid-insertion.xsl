@@ -15,7 +15,7 @@
 <xsl:param name="oidSuffix"/>
 <xsl:param name="needs-start-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button)&quot;)"/>
 <xsl:param name="needs-stop-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button)&quot;)"/>
-<xsl:param name="start-button-x-default" select="&quot;-54&quot;"/>
+<xsl:param name="start-button-x-default" select="&quot;54&quot;"/>
 <xsl:param name="start-button-y-default" select="&quot;-54&quot;"/>
 <xsl:param name="start-button-x" select="concat(substring(substring-before(substring-after(string(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1]),&quot;(ttbox-start-button-x:&quot;), &quot;&#41;&quot;), 1, number(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button-x:&quot;))      * 100),substring($start-button-x-default, 1, number(not(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button-x:&quot;))) * 100))"/>
 <xsl:param name="start-button-y" select="concat(substring(substring-before(substring-after(string(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1]),&quot;(ttbox-start-button-y:&quot;), &quot;&#41;&quot;), 1, number(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button-y:&quot;))      * 100),substring($start-button-y-default, 1, number(not(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button-y:&quot;))) * 100))"/>
