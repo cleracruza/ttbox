@@ -13,8 +13,8 @@
 <xsl:param name="productId" select="&quot;900&quot;"/>
 <xsl:param name="oidSize" select="&quot;30mm&quot;"/>
 <xsl:param name="oidSuffix"/>
-<xsl:param name="needs-start-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button)&quot;)"/>
-<xsl:param name="needs-stop-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button)&quot;)"/>
+<xsl:param name="add-start-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button)&quot;)"/>
+<xsl:param name="add-stop-button" select="contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-stop-button)&quot;)"/>
 <xsl:param name="start-button-x-default" select="&quot;54&quot;"/>
 <xsl:param name="start-button-y-default" select="&quot;-54&quot;"/>
 <xsl:param name="start-button-x" select="concat(substring(substring-before(substring-after(string(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1]),&quot;(ttbox-start-button-x:&quot;), &quot;&#41;&quot;), 1, number(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button-x:&quot;))      * 100),substring($start-button-x-default, 1, number(not(contains(/svg:svg/svg:metadata[1]/rdf:RDF[1]/cc:Work[1]/dc:subject[1],&quot;(ttbox-start-button-x:&quot;))) * 100))"/>
@@ -98,7 +98,7 @@
 <xsl:template match="/svg:svg">
     <xsl:copy>
         <xsl:apply-templates select="node()|@*"/>
-        <xsl:if test="$needs-start-button">
+        <xsl:if test="$add-start-button">
             <svg:g
                 inkscape:label="ttbox-start-button"
                 inkscape:groupmode="layer"
@@ -138,7 +138,7 @@
                 </svg:g>
             </svg:g>
         </xsl:if>
-        <xsl:if test="$needs-stop-button">
+        <xsl:if test="$add-stop-button">
             <svg:g
                 inkscape:label="ttbox-stop-button"
                 inkscape:groupmode="layer"
