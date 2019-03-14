@@ -1,4 +1,9 @@
 <?xml version="1.0"?>
+<!--
+This XSLT allows to (semi-)automatically add OIDs to SVGs.
+
+See svg-oid-insertion.md for details and explanation of how to use this template.
+-->
 <xsl:stylesheet version = "1.0" 
                 xmlns:cc="http://creativecommons.org/ns#"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"

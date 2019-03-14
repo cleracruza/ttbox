@@ -3,6 +3,7 @@
 Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 
 * [Installation](#installation)
+* [OID insertion in SVGs](#oid-insertion-in-svgs)
 * [GME/YAML tooling](#gmeyaml-tooling)
 * [Acknowledgements](#acknowledgements)
 * [Questions/Support](#questionssupport)
@@ -17,6 +18,12 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 git clone https://github.com/cleracruza/ttbox.git
 ```
 * Done. ttbox is ready to use.
+
+## OID insertion in SVGs
+
+Given an SVG that has some elements tagged with OID names (e.g.: using [Inkscape](https://inkscape.org/)), `ttbox` can automatically insert the OID codes to the tagged elements and prepare the SVG for TipToi usage. It requires some care when generating the original SVGs, but saves a ton of time afterwards, as one can re-align/add/remove/... SVG elements without having to manually (and time-consumingly!) redo the OIDs.
+
+See [svg-oid-insertion.md](svg-oid-insertion.md) for details.
 
 ## GME/YAML tooling
 
