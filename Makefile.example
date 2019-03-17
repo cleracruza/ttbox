@@ -1,0 +1,9 @@
+# To take full advantage of `ttbox`, bring (copy/clone/...) the
+# `ttbox` repo into your project as `ttbox` and link
+# `ttbox/Makefile.example` to `Makefile` (or if you have a Makefile
+# already, add the below line to it).
+
+include ttbox/project.mk
+
+# See https://github.com/cleracruza/ttbox-demo for a small but fully
+# working example.
