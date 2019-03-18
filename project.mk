@@ -22,12 +22,20 @@ clean::
 	rm -f $(GME_FILE) $(SVG_WITH_OIDS_FILES) $(TTTOOL_OID_FILES) $(EXTRACTED_OID_FILES)
 
 $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
+# We generate only a small patch of the OID to keep file sizes small,
+# and SVG's automatic pattern tiling is used to get the OIDs onto
+# bigger objects.
+# As an OID is 48 pixels at 1200, which is 1.016mm and hence bigger
+# than 1mm, we use code-dim of 2. This of course means that we
+# generate about 2x2 OID codes, which we later (see `-extracted` rule) have
+# to extract out again.
 	tttool --code-dim 2 oid-codes $<
 
 %.gme: %.yaml %.codes.yaml media/*
 	tttool assemble $<
 
 %-extracted.png: %.png
+# See rule for oid files above on why we shave of from the original OID.
 	convert -shave 23x23 $< $@
 
 %-with-oids.svg: %.svg
