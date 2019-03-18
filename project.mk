@@ -28,7 +28,7 @@ $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
 	tttool assemble $<
 
 %-extracted.png: %.png
-	convert -extract 48x48+10+10 $< $@
+	convert -shave 23x23 $< $@
 
 %-with-oids.svg: %.svg
 	xsltproc \
