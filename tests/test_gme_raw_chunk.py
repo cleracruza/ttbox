@@ -188,23 +188,23 @@ class TestGmeRawChunk(TestCase):
 
     def test_format_byte_too_low_offset(self):
         chunk = GmeRawChunk(0x20, '\x12')
-        assert chunk.format_byte(0x18) == '--'
+        assert chunk.format_byte(-0x02) == '--'
 
     def test_format_byte_too_high_offset(self):
         chunk = GmeRawChunk(0x20, '\x12')
-        assert chunk.format_byte(0x18) == '--'
+        assert chunk.format_byte(0x02) == '--'
 
     def test_format_byte_04(self):
-        chunk = GmeRawChunk(0x20, '\x04')
-        assert chunk.format_byte(0x20) == '04'
+        chunk = GmeRawChunk(0x00, '\x04')
+        assert chunk.format_byte(0x00) == '04'
 
     def test_format_byte_12(self):
-        chunk = GmeRawChunk(0x20, '\x12')
-        assert chunk.format_byte(0x20) == '12'
+        chunk = GmeRawChunk(0x00, '\x12')
+        assert chunk.format_byte(0x00) == '12'
 
     def test_format_byte_in_bigger_buffer(self):
         chunk = GmeRawChunk(0x20, '\x04\x12\x06')
-        assert chunk.format_byte(0x21) == '12'
+        assert chunk.format_byte(0x01) == '12'
 
     def test_format_buffer_full_line(self):
         chunk = GmeRawChunk(0x20, 'ABCDEFGHIJKLMNOP')

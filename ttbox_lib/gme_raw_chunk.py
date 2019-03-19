@@ -3,6 +3,7 @@ from struct import pack, unpack
 
 
 class GmeRawChunk(object):
+    """offsets in methods are relative to chunk start"""
     def __init__(self, offset, buffer):
         self.offset = offset
         self.buffer = buffer
@@ -78,22 +79,23 @@ class GmeRawChunk(object):
 
     def format_byte(self, offset):
         ret = '--'
-        if self.offset <= offset and offset < self.offset + self.length:
-            byte = ord(self.buffer[offset - self.offset])
+        if 0 <= offset and offset < self.length:
+            byte = ord(self.buffer[offset])
             ret = '%.02X' % (byte)
 
         return ret
 
     def format_buffer(self):
-        start = (self.offset & 0xfffffff0)
-        end = ((self.offset + self.length - 1) & 0xfffffff0) + 0x0f
+        start = (self.offset & 0xfffffff0) - self.offset
+        end = ((self.offset + self.length - 1) & 0xfffffff0) + 0x0f \
+            - self.offset
 
         line = start
         ret = ''
         while line < end:
             ret += ('%.08X:  %s %s %s %s %s %s %s %s '
                     + ' %s %s %s %s %s %s %s %s\n') % (
-                line,
+                line + self.offset,
                 self.format_byte(line + 0), self.format_byte(line + 1),
                 self.format_byte(line + 2), self.format_byte(line + 3),
                 self.format_byte(line + 4), self.format_byte(line + 5),
