@@ -27,7 +27,7 @@ $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
 # to extract out again.
 	tttool --code-dim 2 oid-codes $<
 
-%.gme: %.yaml %.codes.yaml media/*
+%.gme: %.yaml %.codes.yaml
 	tttool assemble $<
 
 %-extracted.png: %.png
