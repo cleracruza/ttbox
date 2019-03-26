@@ -33,6 +33,16 @@ See svg-oid-insertion.md for details and explanation of how to use this template
         <xsl:attribute name="style">fill:url(#pattern-oid-<xsl:value-of select="substring-before(substring-after(string(../svg:desc[1]),&quot;(oid:&quot;), &quot;&#41;&quot;)"/>);fill-opacity:1.0</xsl:attribute>
 </xsl:template>
 
+<xsl:template match="//svg:image" mode="restyle">
+    <svg:rect>
+        <xsl:attribute name="style">fill:url(#pattern-oid-<xsl:value-of select="substring-before(substring-after(string(svg:desc[1]),&quot;(oid:&quot;), &quot;&#41;&quot;)"/>);fill-opacity:1.0</xsl:attribute>
+        <xsl:attribute name="x"><xsl:value-of select="@x"/></xsl:attribute>
+        <xsl:attribute name="y"><xsl:value-of select="@y"/></xsl:attribute>
+        <xsl:attribute name="width"><xsl:value-of select="@width"/></xsl:attribute>
+        <xsl:attribute name="height"><xsl:value-of select="@height"/></xsl:attribute>
+    </svg:rect>
+</xsl:template>
+
 <xsl:template match="@id">
     <xsl:copy>
         <xsl:apply-templates select="node()|@*"/>
