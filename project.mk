@@ -40,3 +40,10 @@ $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
 		--stringparam oidSize 1.016mm \
 		--stringparam oidSuffix -extracted \
 		- $< <ttbox/svg-oid-insertion.xsl >$@
+
+%-with-oids.svg: %-generated.svg
+	xsltproc \
+		--stringparam productId $(PRODUCT_ID) \
+		--stringparam oidSize 1.016mm \
+		--stringparam oidSuffix -extracted \
+		- $< <ttbox/svg-oid-insertion.xsl >$@
