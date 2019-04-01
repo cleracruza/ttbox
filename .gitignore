@@ -1,5 +1,6 @@
 *.gme
 oid-*-*.png
+*-generated.svg
 *-with-oids.svg
 .tox
 *.pyc
