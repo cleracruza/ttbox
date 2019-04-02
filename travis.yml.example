@@ -1,0 +1,13 @@
+dist: trusty
+language: generic
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y python-yaml xsltproc
+script:
+  - mkdir tttool
+  - cd tttool
+  - wget joachim-breitner.de/tmp/tttool-1.8.1.zip # no proper release yet, hence falling back to the tmp release for now
+  - unzip tttool-1.8.1.zip
+  - PATH="$PWD:$PATH"
+  - cd ..
+  - make
