@@ -2,5 +2,6 @@
 oid-*-*.png
 *-generated.svg
 *-with-oids.svg
+*-with-oids.png
 .tox
 *.pyc

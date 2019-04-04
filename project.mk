@@ -6,6 +6,7 @@ TTBOX="ttbox/ttbox"
 YAML_FILE=$(CODE_YAML_FILE:%.codes.yaml=%.yaml)
 GME_FILE=$(YAML_FILE:%.yaml=%.gme)
 SVG_WITH_OIDS_FILES=$(SVG_WITHOUT_OIDS_FILES:%.svg=%-with-oids.svg)
+PNG_WITH_OIDS_FILES=$(SVG_WITH_OIDS_FILES:%.svg=%.png)
 
 PRODUCT_ID=$(shell ${TTBOX} print-product-id ${YAML_FILE})
 OIDS=$(shell ${TTBOX} print-oids ${YAML_FILE})
@@ -15,7 +16,9 @@ EXTRACTED_OID_FILES=$(TTTOOL_OID_FILES:%.png=%-extracted.png)
 all:: $(GME_FILE) $(SVG_WITH_OIDS_FILES) $(EXTRACTED_OID_FILES)
 
 clean::
-	rm -f $(GME_FILE) $(SVG_WITH_OIDS_FILES) $(TTTOOL_OID_FILES) $(EXTRACTED_OID_FILES)
+	rm -f $(GME_FILE) $(SVG_WITH_OIDS_FILES) $(PNG_WITH_OIDS_FILES) $(TTTOOL_OID_FILES) $(EXTRACTED_OID_FILES)
+
+pngs-with-oids:: $(PNG_WITH_OIDS_FILES)
 
 $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
 # We generate only a small patch of the OID to keep file sizes small,
@@ -47,3 +50,9 @@ $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
 		--stringparam oidSize 1.016mm \
 		--stringparam oidSuffix -extracted \
 		- $< <ttbox/svg-oid-insertion.xsl >$@
+
+%.png: %.svg $(EXTRACTED_OID_FILES)
+	inkscape \
+		--export-dpi=1200 \
+		--export-png=$@ \
+		$<
