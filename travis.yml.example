@@ -6,7 +6,7 @@ before_install:
 script:
   - mkdir tttool
   - cd tttool
-  - wget joachim-breitner.de/tmp/tttool-1.8.1.zip # no proper release yet, hence falling back to the tmp release for now
+  - wget https://github.com/entropia/tip-toi-reveng/releases/download/1.8.1/tttool-1.8.1.zip
   - unzip tttool-1.8.1.zip
   - PATH="$PWD:$PATH"
   - cd ..
