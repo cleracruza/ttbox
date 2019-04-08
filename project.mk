@@ -2,7 +2,7 @@ SVG_WITHOUT_OIDS_FILES=$(shell find -iname '*.svg' ! -iname '*-with-oids.svg' )
 
 TTBOX="ttbox/ttbox"
 
-YAML_FILE=$(shell find -iname '*.yaml' ! -iname '*.codes.yaml')
+YAML_FILE=$(shell find \( -name ttbox -prune \) -o \( -name .git -prune \) -o \( -iname '*.yaml' ! -iname '*.codes.yaml' -print \) | sort | head -n 1)
 GME_FILE=$(YAML_FILE:%.yaml=%.gme)
 SVG_WITH_OIDS_FILES=$(SVG_WITHOUT_OIDS_FILES:%.svg=%-with-oids.svg)
 
