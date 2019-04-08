@@ -3,6 +3,7 @@ from outputs import warn, error
 from base_command import BaseCommand
 
 from yaml_command import YamlCommand
+from print_codes_yaml_command import PrintCodesYamlCommand
 from print_oids_command import PrintOidsCommand
 from print_product_id_command import PrintProductIdCommand
 

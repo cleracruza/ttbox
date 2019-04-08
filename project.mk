@@ -1,9 +1,8 @@
-CODE_YAML_FILE=$(shell find -iname '*.codes.yaml')
 SVG_WITHOUT_OIDS_FILES=$(shell find -iname '*.svg' ! -iname '*-with-oids.svg' )
 
 TTBOX="ttbox/ttbox"
 
-YAML_FILE=$(CODE_YAML_FILE:%.codes.yaml=%.yaml)
+YAML_FILE=$(shell find -iname '*.yaml' ! -iname '*.codes.yaml')
 GME_FILE=$(YAML_FILE:%.yaml=%.gme)
 SVG_WITH_OIDS_FILES=$(SVG_WITHOUT_OIDS_FILES:%.svg=%-with-oids.svg)
 
@@ -15,6 +14,7 @@ PDF_WITH_OIDS_FILES=$(SVG_WITH_OIDS_FILES:%.svg=%.pdf)
 
 PRODUCT_ID=$(shell ${TTBOX} print-product-id ${YAML_FILE})
 OIDS=$(shell ${TTBOX} print-oids ${YAML_FILE})
+CODE_YAML_FILE=$(shell ${TTBOX} print-codes-yaml ${YAML_FILE})
 TTTOOL_OID_FILES=$(OIDS:%=oid-$(PRODUCT_ID)-%.png)
 EXTRACTED_OID_FILES=$(TTTOOL_OID_FILES:%.png=%-extracted.png)
 
@@ -51,7 +51,7 @@ $(TTTOOL_OID_FILES): $(YAML_FILE) $(CODE_YAML_FILE)
 # to extract out again.
 	tttool --code-dim 2 oid-codes $<
 
-%.gme: %.yaml %.codes.yaml
+$(GME_FILE): $(YAML_FILE) $(CODE_YAML_FILE)
 	tttool assemble $<
 
 %-extracted.png: %.png
