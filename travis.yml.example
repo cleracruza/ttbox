@@ -10,4 +10,4 @@ script:
   - unzip tttool-1.8.1.zip
   - PATH="$PWD:$PATH"
   - cd ..
-  - make
+  - make check
