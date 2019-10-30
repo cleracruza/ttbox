@@ -13,6 +13,14 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 ## Installation
 
 * Install [`tttool`](https://github.com/entropia/tip-toi-reveng), GNU Make, Python, PyYAML, and ImageMagick.
+
+  (These programs install easily on Linux hosts. According to their
+  documentation, they should also install on Windows and MacOS. But as
+  we lack access to Windows/MacOS hosts, we cannot test ourselves. If
+  you have access to such hosts, we'd gladly merge your step-by-step
+  guide here on how to install these programs on Windows/MacOS and get
+  `ttbox` to run on Windows/MacOS.)
+
 * Clone this repository
 ```
 git clone https://github.com/cleracruza/ttbox.git
