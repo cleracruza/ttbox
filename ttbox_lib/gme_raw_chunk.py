@@ -14,8 +14,7 @@ class GmeRawChunk(object):
         name = 'Gme' + kind[0].upper() + kind[1:] + 'Chunk'
         return getattr(sys.modules[module], name)
 
-    def set_int32(self, offset, value):
-        size = 4
+    def _set_packed(self, offset, format, size, value):
         if size > self.length:
             raise RuntimeError(('Setting %d bytes is beyond the chunk size '
                                 + '(%d)') % (size, self.length))
@@ -28,11 +27,16 @@ class GmeRawChunk(object):
         if offset < 0:
             offset += self.length
 
-        self.buffer = self.buffer[0:offset] + pack('<I', value) \
+        self.buffer = self.buffer[0:offset] + pack(format, value) \
             + self.buffer[offset + size:]
 
-    def get_int32(self, offset):
-        size = 4
+    def set_int32(self, offset, value):
+        return self._set_packed(offset, '<I', 4, value)
+
+    def set_str(self, offset, value, maxlen):
+        return self._set_packed(offset, '%ss' % (maxlen), maxlen, value)
+
+    def _get_unpacked(self, offset, format, size):
         if size > self.length:
             raise RuntimeError(('Getting %d bytes is beyond the chunk size '
                                 + '(%d)') % (size, self.length))
@@ -45,8 +49,14 @@ class GmeRawChunk(object):
         if offset < 0:
             offset += self.length
 
-        (ret, ) = unpack('<I', self.buffer[offset:offset+size])
+        (ret, ) = unpack(format, self.buffer[offset:offset+size])
         return ret
+
+    def get_int8(self, offset):
+        return self._get_unpacked(offset, '<b', 1)
+
+    def get_int32(self, offset):
+        return self._get_unpacked(offset, '<I', 4)
 
     def checksum(self):
         ret = 0

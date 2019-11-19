@@ -26,6 +26,7 @@ COMMAND_CLASSES = [
     cmdline.PrintCodesYamlCommand,
     cmdline.PrintOidsCommand,
     cmdline.PrintProductIdCommand,
+    cmdline.SetLanguageCommand,
     cmdline.SetProductIdCommand,
     cmdline.UpdateChecksumCommand,
 ]

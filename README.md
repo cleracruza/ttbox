@@ -43,7 +43,7 @@ The `ttbox` script allows to modify or extract information from GME/YAML files.
 $ ./ttbox --help
 usage: ttbox [-h]
              
-             {check,explain,print-oids,print-product-id,set-product-id,update-checksum}
+             {check,explain,print-codes-yaml,print-oids,print-product-id,set-language,set-product-id,update-checksum}
              ...
 
 Toolbox for GME and tttool yaml files
@@ -54,11 +54,13 @@ optional arguments:
 Commands:
   Available commands
 
-  {check,explain,print-oids,print-product-id,set-product-id,update-checksum}
+  {check,explain,print-codes-yaml,print-oids,print-product-id,set-language,set-product-id,update-checksum}
     check               check a GME file for obvious errors
     explain             print an annotated dump of the GME file
+    print-codes-yaml    print the name of the file holding scriptcodes
     print-oids          print the oids of a YAML file
     print-product-id    print the product id of a YAML file
+    set-language        set the language of a GME file
     set-product-id      set the product id of a GME file
     update-checksum     update the checksum stored in a GME file
 ```

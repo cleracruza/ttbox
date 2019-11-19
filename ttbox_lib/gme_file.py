@@ -16,6 +16,13 @@ class GmeFile(object):
         header = self.chunks[0]
         header.set_int32(0x14, product_id)
 
+    def set_language(self, language):
+        header = self.chunks[0]
+        version_string_length = header.get_int8(0x20)
+        language_offset = 0x29 + version_string_length
+        language_max_length = 0x60 - language_offset
+        header.set_str(language_offset, language, language_max_length)
+
     def checksum(self):
         ret = 0
         for chunk in self.chunks[:-1]:
