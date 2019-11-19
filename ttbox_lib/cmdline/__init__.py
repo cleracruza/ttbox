@@ -9,6 +9,7 @@ from print_product_id_command import PrintProductIdCommand
 
 from gme_command import GmeCommand
 from check_command import CheckCommand
+from clear_language_command import ClearLanguageCommand
 from explain_command import ExplainCommand
 from set_language_command import SetLanguageCommand
 from set_product_id_command import SetProductIdCommand

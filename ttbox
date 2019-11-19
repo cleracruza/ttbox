@@ -22,6 +22,7 @@ def parse_arguments():
 
 COMMAND_CLASSES = [
     cmdline.CheckCommand,
+    cmdline.ClearLanguageCommand,
     cmdline.ExplainCommand,
     cmdline.PrintCodesYamlCommand,
     cmdline.PrintOidsCommand,
