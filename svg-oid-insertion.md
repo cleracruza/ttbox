@@ -210,8 +210,13 @@ Editor ...”).
 
 ## XSLT parameters
 
+* [add-extra-stop-button](#add-extra-stop-button)
 * [add-start-button](#add-start-button)
 * [add-stop-button](#add-stop-button)
+* [extra-stop-button-x](#extra-stop-button-x)
+* [extra-stop-button-x-default](#extra-stop-button-x-default)
+* [extra-stop-button-y](#extra-stop-button-y)
+* [extra-stop-button-y-default](#extra-stop-button-y-default)
 * [oidSize](#oidSize)
 * [oidSuffix](#oidSuffix)
 * [productId](#productId)
@@ -223,6 +228,14 @@ Editor ...”).
 * [stop-button-x-default](#stop-button-x-default)
 * [stop-button-y](#stop-button-y)
 * [stop-button-y-default](#stop-button-y-default)
+
+
+
+### add-extra-stop-button
+
+Default: `true`, if the SVG's `subject` metadata contains `(ttbox-extra-stop-button)`. `false` otherwise.
+
+If true, an additional stop button is added to the generated SVG.
 
 
 
@@ -239,6 +252,38 @@ If true, a start button is added to the generated SVG.
 Default: `true`, if the SVG's `subject` metadata contains `(ttbox-stop-button)`. `false` otherwise.
 
 If true, a stop button is added to the generated SVG.
+
+
+
+### extra-stop-button-x
+
+Default: `$VALUE`, if SVG's `subject` metadata contains `(ttbox-extra-stop-button-x:$VALUE)`, otherwise `extra-stop-button-x-default`
+
+Extra stop button offset from the page's right border.
+
+
+
+### extra-stop-button-x-default
+
+Default: -54
+
+Extra stop button's default offset from the page's right border.
+
+
+
+### extra-stop-button-y
+
+Default: `$VALUE`, if SVG's `subject` metadata contains `(ttbox-extra-stop-button-y:$VALUE)`, otherwise `extra-stop-button-y-default`
+
+Extra stop button offset from the page's bottom border.
+
+
+
+### extra-stop-button-y-default
+
+Default: -54
+
+Extra stop button's default offset from the page's bottom border.
 
 
 
