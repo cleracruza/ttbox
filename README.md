@@ -34,8 +34,11 @@ git clone https://github.com/cleracruza/ttbox.git
 * choco install python3 (installs Python)
 * pip install pyyaml (if it does not work be sure phython is in your "path", maybe you need to restart)
 * choco install git
-* see normal installation above
-* Have Fun!
+* Clone this repository
+```
+git clone https://github.com/cleracruza/ttbox.git
+```
+* Done. ttbox is ready to use.
 
 
 ## OID insertion in SVGs
