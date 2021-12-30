@@ -13,6 +13,11 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 ## Installation
 
 * Install [`tttool`](https://github.com/entropia/tip-toi-reveng), GNU Make, Python, PyYAML, and ImageMagick.
+* Clone this repository
+```
+git clone https://github.com/cleracruza/ttbox.git
+```
+* Done. ttbox is ready to use.
 
 ### Windows Installation
   
@@ -23,11 +28,6 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
   guide here on how to install these programs on Windows/MacOS and get
   `ttbox` to run on Windows/MacOS.)
 
-* Clone this repository
-```
-git clone https://github.com/cleracruza/ttbox.git
-```
-* Done. ttbox is ready to use.
 
 ## OID insertion in SVGs
 
