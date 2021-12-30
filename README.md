@@ -29,16 +29,15 @@ git clone https://github.com/cleracruza/ttbox.git
   `ttbox` to run on Windows/MacOS.)
 
 * Install [`tttool`](https://github.com/entropia/tip-toi-reveng) (be sure to add it to your "path" - variable)
-* Install [`chocolatey`](https://chocolatey.org/install) (you don't need it, but it will help you easily install the rest)
+* Install [`chocolatey`](https://chocolatey.org/install) (will help you easily install the rest)
 * choco install make (installs GNU Make)
 * choco install python3 (installs Python)
-* pip install pyyaml (if it does not work be sure phython is in your "path", maybe you need to restart)
+* pip install pyyaml (if it does not work be sure python is in your "path", maybe you need to restart)
+* choco install ImageMagick.app
 * choco install git
 * Clone this repository
 ```
 git clone https://github.com/cleracruza/ttbox.git
-```
-* Done. ttbox is ready to use.
 
 
 ## OID insertion in SVGs
