@@ -28,6 +28,15 @@ git clone https://github.com/cleracruza/ttbox.git
   guide here on how to install these programs on Windows/MacOS and get
   `ttbox` to run on Windows/MacOS.)
 
+* Install [`tttool`](https://github.com/entropia/tip-toi-reveng) (be sure to add it to your "path" - variable)
+* Install [`chocolatey`](https://chocolatey.org/install) (you don't need it, but it will help you easily install the rest)
+* choco install make (installs GNU Make)
+* choco install python3 (installs Python)
+* pip install pyyaml (if it does not work be sure phython is in your "path", maybe you need to restart)
+* choco install git
+* see normal installation above
+* Have Fun!
+
 
 ## OID insertion in SVGs
 
