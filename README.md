@@ -14,9 +14,7 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 
 * Install [`tttool`](https://github.com/entropia/tip-toi-reveng), GNU Make, Python, PyYAML, and ImageMagick.
 * Clone this repository
-```
-git clone https://github.com/cleracruza/ttbox.git
-```
+* git clone https://github.com/cleracruza/ttbox.git
 * Done. ttbox is ready to use.
 
 ### Windows Installation
@@ -35,10 +33,8 @@ git clone https://github.com/cleracruza/ttbox.git
 * pip install pyyaml (if it does not work be sure python is in your "path", maybe you need to restart)
 * choco install ImageMagick.app
 * choco install git
-* Clone this repository
-```
-git clone https://github.com/cleracruza/ttbox.git
-```
+* git clone https://github.com/cleracruza/ttbox.git
+
 
 ## OID insertion in SVGs
 
