@@ -26,6 +26,7 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
   guide here on how to install these programs on Windows/MacOS and get
   `ttbox` to run on Windows/MacOS.)
 
+A first strating point could be:
 * Install [`tttool`](https://github.com/entropia/tip-toi-reveng) (be sure to add it to your "path" - variable)
 * Install [`chocolatey`](https://chocolatey.org/install) (will help you easily install the rest)
 * choco install make (installs GNU Make)
