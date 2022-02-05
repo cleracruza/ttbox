@@ -15,5 +15,7 @@ from set_language_command import SetLanguageCommand
 from set_product_id_command import SetProductIdCommand
 from update_checksum_command import UpdateChecksumCommand
 
+from convert_rec_command import ConvertRecCommand
+
 # ignore flake8 because of F401 violation
 # flake8: noqa
