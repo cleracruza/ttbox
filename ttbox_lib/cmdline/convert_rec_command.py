@@ -13,7 +13,8 @@ class ConvertRecCommand(BaseCommand):
 This command converts a REC file (i.e.: the files that pens store their
 recordings in) to a WAV file.
 
-The WAV file gets written to REC file's name with ".wav" appended.
+The WAV file gets written to REC file's name with an eventual ".rec" stripped
+and ".wav" appended.
 
 This is useful to backup your pen's recordings and archive them in a commonly
 used format.
@@ -38,7 +39,12 @@ used format.
         return ''.join([chr(ord(x) ^ 0x6a) for x in buffer])
 
     def write_wav(self, buffer):
-        with open(self.REC_FILE + '.wav', 'wb') as f:
+        target = self.REC_FILE
+        if target.endswith('.rec'):
+            target = target[:-4]
+        target += '.wav'
+
+        with open(target, 'wb') as f:
             f.write(buffer)
 
     def run(self):
