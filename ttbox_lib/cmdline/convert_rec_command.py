@@ -1,3 +1,5 @@
+import sys
+
 from . import BaseCommand
 
 
@@ -28,7 +30,8 @@ used format.
         parser.add_argument(
             'OUTPUT_FILE', nargs='?', help='File name to write the WAV file '
             'to. If empty or not provded, it defaults to the REC_FILE with '
-            'trailing ".rec" removed and ".wav" appended.', default='')
+            'trailing ".rec" removed and ".wav" appended. Use - to write to '
+            'stdout.', default='')
 
         return parser
 
@@ -49,8 +52,11 @@ used format.
                 target = target[:-4]
             target += '.wav'
 
-        with open(target, 'wb') as f:
-            f.write(buffer)
+        if target == '-':
+            sys.stdout.write(buffer)
+        else:
+            with open(target, 'wb') as f:
+                f.write(buffer)
 
     def run(self):
         buffer = self.read_rec()
