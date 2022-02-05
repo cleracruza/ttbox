@@ -28,11 +28,20 @@ used format.
 
         return parser
 
-    def run(self):
+    def read_rec(self):
         with open(self.REC_FILE, 'rb') as f:
-            buffer = f.read()
+            return f.read()
 
-        buffer = ''.join([chr(ord(x) ^ 0x6a) for x in buffer])
+    def convert_to_wav(self, buffer):
+        return ''.join([chr(ord(x) ^ 0x6a) for x in buffer])
 
+    def write_wav(self, buffer):
         with open(self.REC_FILE + '.wav', 'wb') as f:
             f.write(buffer)
+
+    def run(self):
+        buffer = self.read_rec()
+
+        buffer = self.convert_to_wav(buffer)
+
+        self.write_wav(buffer)
