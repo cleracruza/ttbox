@@ -4,6 +4,7 @@ from . import BaseCommand
 class ConvertRecCommand(BaseCommand):
     def configure(self, config, args):
         self.REC_FILE = args.REC_FILE
+        self.OUTPUT_FILE = args.OUTPUT_FILE
 
     def get_subparser_short_help(self):
         return 'converts a REC file to WAV file'
@@ -12,9 +13,6 @@ class ConvertRecCommand(BaseCommand):
         return '''\
 This command converts a REC file (i.e.: the files that pens store their
 recordings in) to a WAV file.
-
-The WAV file gets written to REC file's name with an eventual ".rec" stripped
-and ".wav" appended.
 
 This is useful to backup your pen's recordings and archive them in a commonly
 used format.
@@ -26,6 +24,11 @@ used format.
 
         parser.add_argument('REC_FILE',
                             help='REC file to convert')
+
+        parser.add_argument(
+            'OUTPUT_FILE', nargs='?', help='File name to write the WAV file '
+            'to. If empty or not provded, it defaults to the REC_FILE with '
+            'trailing ".rec" removed and ".wav" appended.', default='')
 
         return parser
 
@@ -39,10 +42,12 @@ used format.
         return ''.join([chr(ord(x) ^ 0x6a) for x in buffer])
 
     def write_wav(self, buffer):
-        target = self.REC_FILE
-        if target.endswith('.rec'):
-            target = target[:-4]
-        target += '.wav'
+        target = self.OUTPUT_FILE
+        if not target:
+            target = self.REC_FILE
+            if target.endswith('.rec'):
+                target = target[:-4]
+            target += '.wav'
 
         with open(target, 'wb') as f:
             f.write(buffer)
