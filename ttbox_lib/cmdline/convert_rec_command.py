@@ -5,14 +5,12 @@ import sys
 from . import BaseCommand
 
 
-LAME_BINARY = os.path.join('/usr', 'bin', 'lame')
-
-
 class ConvertRecCommand(BaseCommand):
     def configure(self, config, args):
         self.REC_FILE = args.REC_FILE
         self.OUTPUT_FILE = args.OUTPUT_FILE
         self.format = args.format[0]
+        self.lame_executable = args.lame_executable
 
     def get_subparser_short_help(self):
         return 'converts a REC file to a WAV/MP3 file'
@@ -45,6 +43,11 @@ used format.
             'lossless wav. "mp3" uses "lame" to convert to mp3.',
             default=['wav'])
 
+        parser.add_argument(
+            '--lame-executable', metavar='PATH_TO_LAME',
+            help='The path to the lame executable.',
+            default=os.path.join('/usr', 'bin', 'lame'))
+
         return parser
 
     def read_rec(self):
@@ -57,10 +60,11 @@ used format.
         return ''.join([chr(ord(x) ^ 0x6a) for x in buffer])
 
     def convert_to_mp3(self, buffer):
-        if not os.path.isfile(LAME_BINARY):
-            raise RuntimeError('lame binary not found at %s' % LAME_BINARY)
+        executable = self.lame_executable
+        if not os.path.isfile(executable):
+            raise RuntimeError('lame executable not found at %s' % executable)
         p = subprocess.Popen(
-            [LAME_BINARY, '-', '-'],
+            [executable, '-', '-'],
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE)
