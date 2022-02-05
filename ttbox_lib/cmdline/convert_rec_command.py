@@ -33,6 +33,8 @@ used format.
             return f.read()
 
     def convert_to_wav(self, buffer):
+        # The magic XOR value 0x6a is from
+        # https://github.com/entropia/tip-toi-reveng/wiki/REC-file-format#the-file-format
         return ''.join([chr(ord(x) ^ 0x6a) for x in buffer])
 
     def write_wav(self, buffer):
