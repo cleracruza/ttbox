@@ -18,7 +18,7 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 * Done. ttbox is ready to use.
 
 ### Windows Installation
-  
+
   (These programs install easily on Linux hosts. According to their
   documentation, they should also install on Windows and MacOS. But as
   we lack access to Windows/MacOS hosts, we cannot test ourselves. If
@@ -52,7 +52,7 @@ The `ttbox` script allows to modify or extract information from GME/YAML files.
 ```
 $ ./ttbox --help
 usage: ttbox [-h]
-             
+
              {check,clear-language,convert-rec,explain,print-codes-yaml,print-oids,print-product-id,set-language,set-product-id,update-checksum}
              ...
 
