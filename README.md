@@ -8,7 +8,7 @@ Toolbox for working with files for [TipToi](https://www.tiptoi.com/) pens.
 * [Acknowledgements](#acknowledgements)
 * [Questions/Support](#questionssupport)
 
-[![Build Status](https://travis-ci.org/cleracruza/ttbox.svg?branch=master)](https://travis-ci.org/cleracruza/ttbox)
+[![Build Status](https://github.com/cleracruza/ttbox/actions/workflows/ci.yaml/badge.svg)](https://github.com/cleracruza/ttbox-private/actions/workflows/ci.yaml)
 
 ## Installation
 
